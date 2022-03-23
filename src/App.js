@@ -1,10 +1,25 @@
+import { Repo } from "./Components/Repo/Repo.component";
 import "./styles.css";
+import { getData } from "./utils.js";
+import { useState, useEffect } from "react";
 
 export default function App() {
+  const [repos, UpdateRepos] = useState([]);
+
+  useEffect(() => {
+    const URL =
+      "https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc";
+
+    getData(URL).then((res) => {
+      UpdateRepos(res);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
+      {repos?.items?.map((repo) => {
+        return <Repo key={repo.id} {...{ repo }} />;
+      })}
     </div>
   );
 }

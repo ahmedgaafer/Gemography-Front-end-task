@@ -1,4 +1,84 @@
+html {
+  background: #1a132f;
+  color: #f7e2e2;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
+}
+
+a {
+  color: #f7e2e2;
+  text-decoration: none;
+}
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 #61a4bc99;
+  cursor: pointer;
+}
+
+.repo {
+  width: 100%;
+  border: 1px solid #61a4bc;
+  padding: 10px;
+  margin: 10px;
+}
+
+.repo img {
+  flex-basis: 0;
+  width: 150px;
+  object-fit: cover;
+  border: 2px solid #5b7db1;
+}
+
+.repo .user {
+  width: 100%;
+  text-align: left;
+  padding: 5px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.meta {
+  display: flex;
+  margin-top: 10px;
+}
+
+.meta .counts {
+  display: flex;
+
+  flex-basis: 1;
+}
+
+.meta .counts div {
+  border: 1px solid #61a4bc;
+}
+
+.meta .creator {
+  flex-basis: 3;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+strong {
+  padding: 5px;
+}
+
+.counts div {
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.counts span {
+  color: #61a4bc;
 }
