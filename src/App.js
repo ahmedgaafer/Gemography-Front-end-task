@@ -1,25 +1,41 @@
 import { Repo } from "./Components/Repo/Repo.component";
 import "./styles.css";
-import { getData } from "./utils.js";
-import { useState, useEffect } from "react";
+
+import React, { useRef, useState, useCallback } from "react";
+import { useUserSearch } from "./Hooks/useUserSearch";
 
 export default function App() {
-  const [repos, UpdateRepos] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    const URL =
-      "https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc";
+  const { loading, error, users, hasMore } = useUserSearch(pageNumber);
 
-    getData(URL).then((res) => {
-      UpdateRepos(res);
-    });
-  }, []);
-
+  const observer = useRef();
+  const lastUserElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
   return (
     <div className="App">
-      {repos?.items?.map((repo) => {
-        return <Repo key={repo.id} {...{ repo }} />;
+      {users.map((user, index) => {
+        if (users.length === index + 1) {
+          return (
+            <Repo innerRef={lastUserElementRef} key={user.id} repo={user} />
+          );
+        } else {
+          return <Repo key={user.id} repo={user} />;
+        }
       })}
+      <div>{loading && "Loading..."}</div>
+      <div>{error && "Error"}</div>
     </div>
   );
 }

@@ -1,10 +1,11 @@
 import "../../styles.css";
 import { GoIssueOpened, GoStar } from "react-icons/go";
 export function Repo(props) {
-  const { repo } = props;
+  const { repo, innerRef } = props;
+
   const daysDiff = new Date() - new Date(repo.created_at);
   return (
-    <a href={repo.html_url} target="_blank" rel="noreferrer">
+    <a href={repo.html_url} target="_blank" rel="noreferrer" ref={innerRef}>
       <div className="repo flex card">
         <img src={repo.owner.avatar_url} alt="a" />
         <div className="user">
